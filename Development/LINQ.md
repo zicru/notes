@@ -171,3 +171,62 @@ collection.Select((x, i) => $"Index: {i}, original value: {x}, value * 2: {x * 2
 
 ---
 
+### `SelectMany`
+
+Essentially, used for flattening collections
+If you want to just use it like that. However, if you add `.ToString()`, you will get a weird output, because each list will be turned to string. So there's to solutions. Do it after, or inside.
+
+
+```c#
+IEnumerable<List<int>> collection = [[1,2,3],[4,5,6]];
+
+collection.SelectMany(x => x).Dump();
+collection.SelectMany(x => x.Select(x => x.ToString())).Dump();
+collection
+    .SelectMany(x => x)
+    .Select(x => x.ToString())
+    .Dump();
+```
+
+The result is the same:
+
+![InsidePredicate](Images/LINQ/image-12.png)
+
+Similarly, you have the *overload with index*.
+
+---
+
+### `Cast`
+
+It will simply cast it from something to something.
+
+```c#
+IEnumerable<object> collection = [1, 2, 3, 4, 5];
+
+collection.Cast<int>().Dump();
+```
+
+![Cast](Images/LINQ/image-13.png)
+
+--- 
+
+### `Chunk`
+
+It will chunk a collection into a collection of collections, based on the number of elements you wanted to have in each collection. It will go from the start and the last one will take whatever elements remain if it's not divisible without a remainder.
+
+```c#
+IEnumerable<int> collection = [1, 2, 3, 4, 5, 6];
+
+collection.Chunk(4).Dump();
+```
+
+![Chunk](Images/LINQ/image-14.png)
+
+---
+
+## Existence or quanitity checks
+
+---
+
+#### `Any` ( Immediate execution )
+
